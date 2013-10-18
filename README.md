@@ -17,9 +17,9 @@ A Perch CMS field type for geocoding addresses.
 
 To use the fieldtype, add into your template as follows:
 
-	````html
+	```html
 	<perch:content id="address" type="geocode" label="Address" adapter="curl" providers="google_maps openstreetmaps map_quest" required="true" />
-	````
+	```
 
 Once an address has been successfully geocoded, you'll see a Google Map preview:
 
@@ -41,7 +41,7 @@ Providers are configured using constants. For example, the Google Maps provider 
 
 You should specify constants in your `$PERCH/config/config.php` file:
 
-	````php
+	```php
 	<?php
 	// Your existing Perch configuration…
 
@@ -53,7 +53,7 @@ You should specify constants in your `$PERCH/config/config.php` file:
 	// Bind Provider Configuration.
 	define('BING_MAPS_APIKEY', '');
 	define('BING_MAPS_LOCALE', '');
-	````
+	```
 
 Check out the [PHP Geocoder](https://github.com/geocoder-php) documentation for more information providers and what parameters their constructors accept.
 
@@ -61,7 +61,7 @@ Check out the [PHP Geocoder](https://github.com/geocoder-php) documentation for 
 
 The latitude and longitude values, as well as the address entered by the user and any error messages, are stored in the item's JSON:
 
-	````js
+	```js
 	{
 		"address": {
 			"raw": '1218 2nd Avenue South, Lethbridge, AB T1J 0E3',
@@ -70,6 +70,6 @@ The latitude and longitude values, as well as the address entered by the user an
 			"error": ''
 		}
 	}
-	````
+	```
 
 You can access this information using Perch's API functionality.
