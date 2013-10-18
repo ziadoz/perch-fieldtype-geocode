@@ -10,8 +10,8 @@ A Perch CMS field type for geocoding addresses.
 
 # Installation
 
-1) Copy `perch/addons/fieldtypes/geocode` into your project `$PERCH/addons/fieldtypes` directory.
-2) Download [PHP Geocoder](https://github.com/geocoder-php) into `$PERCH/addons/fieldtypes/geocode/php-geocoder`.
+1. Copy `perch/addons/fieldtypes/geocode` into your project `$PERCH/addons/fieldtypes` directory.
+2. Download [PHP Geocoder](https://github.com/geocoder-php) into `$PERCH/addons/fieldtypes/geocode/php-geocoder`.
 
 # Usage
 
