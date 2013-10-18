@@ -17,13 +17,13 @@ A Perch CMS field type for geocoding addresses.
 
 To use the fieldtype, add into your template as follows:
 
-	```html
-	<perch:content id="address" type="geocode" label="Address" adapter="curl" providers="google_maps openstreetmaps map_quest" required="true" />
-	```
+```html
+<perch:content id="address" type="geocode" label="Address" adapter="curl" providers="google_maps openstreetmaps map_quest" required="true" />
+```
 
 Once an address has been successfully geocoded, you'll see a Google Map preview:
 
-[screenshot]: https://github.com/ziadoz/perch-fieldtype-geocode/raw/master/screenshot.png "Google Map Preview"
+[screenshot]: https://github.com/ziadoz/perch-fieldtype-geocode/blob/master/screenshot.png "Google Map Preview"
 
 ## Adapters
 
@@ -41,19 +41,20 @@ Providers are configured using constants. For example, the Google Maps provider 
 
 You should specify constants in your `$PERCH/config/config.php` file:
 
-	```php
-	<?php
-	// Your existing Perch configuration…
+```php
+<?php
+// Your existing Perch configuration…
 
-	// Google Maps Provider Configuration.
-	define('GOOGLE_MAPS_REGION', '');
-	define('GOOGLE_MAPS_LOCALE', '');
-	define('GOOGLE_MAPS_USESSL', '');
+// Google Maps Provider Configuration.
+define('GOOGLE_MAPS_REGION', '');
+define('GOOGLE_MAPS_LOCALE', '');
+define('GOOGLE_MAPS_USESSL', '');
 
-	// Bind Provider Configuration.
-	define('BING_MAPS_APIKEY', '');
-	define('BING_MAPS_LOCALE', '');
-	```
+// Bind Provider Configuration.
+define('BING_MAPS_APIKEY', '');
+define('BING_MAPS_LOCALE', '');
+?>
+```
 
 Check out the [PHP Geocoder](https://github.com/geocoder-php) documentation for more information providers and what parameters their constructors accept.
 
@@ -61,15 +62,15 @@ Check out the [PHP Geocoder](https://github.com/geocoder-php) documentation for 
 
 The latitude and longitude values, as well as the address entered by the user and any error messages, are stored in the item's JSON:
 
-	```js
-	{
-		"address": {
-			"raw": '1218 2nd Avenue South, Lethbridge, AB T1J 0E3',
-			"latitude": 49.6974029,
-			"longitude": -112.8277358,
-			"error": ''
-		}
+```js
+{
+	"address": {
+		"raw": '1218 2nd Avenue South, Lethbridge, AB T1J 0E3',
+		"latitude": 49.6974029,
+		"longitude": -112.8277358,
+		"error": ''
 	}
-	```
+}
+```
 
 You can access this information using Perch's API functionality.
