@@ -23,7 +23,7 @@ To use the fieldtype, add into your template as follows:
 
 Once an address has been successfully geocoded, you'll see a Google Map preview:
 
-![screenshot]:(https://github.com/ziadoz/perch-fieldtype-geocode/blob/master/screenshot.png "Google Map Preview")
+![screenshot](https://github.com/ziadoz/perch-fieldtype-geocode/blob/master/screenshot.png?raw=true "Google Map Preview")
 
 ## Adapters
 
