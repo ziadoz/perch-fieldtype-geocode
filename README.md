@@ -77,4 +77,32 @@ The latitude and longitude values, as well as the address entered by the user an
 }
 ```
 
-You can access this information using Perch's API functionality.
+You can access this information using Perch's `perch_content_custom()` method:
+
+```php
+<?php
+$addresses = perch_content_custom('Addresses', array(
+	'skip-template' => true,
+));
+
+print_r($addresses);
+
+/*
+    [0] => Array
+        (
+            [_id] => 95
+            [name] => Media 32
+            [_title] => Media 32
+            [address] => Array
+                (
+                    [raw] => 1218 2nd Avenue South, Lethbridge, AB T1J 0E3
+                    [error] =>
+                    [latitude] => 49.6974029
+                    [longitude] => -112.8277358
+                )
+
+            [_page] => *
+        )
+*/
+?>
+```
