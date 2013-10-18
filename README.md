@@ -6,7 +6,7 @@ A Perch CMS field type for geocoding addresses.
 # Requirements
 
 * PHP 5.3+
-* Perch CMS
+* Perch CMS v2.3.2
 
 # Installation
 
