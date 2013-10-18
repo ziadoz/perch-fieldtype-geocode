@@ -21,6 +21,10 @@ To use the fieldtype, add into your template as follows:
 	<perch:content id="address" type="geocode" label="Address" adapter="curl" providers="google_maps openstreetmaps map_quest" required="true" />
 	````
 
+Once an address has been successfully geocoded, you'll see a Google Map preview:
+
+[screenshot]: https://github.com/ziadoz/perch-fieldtype-geocode/raw/master/screenshot.png "Google Map Preview"
+
 ## Adapters
 
 The `adapter` attributes determines which HTTP adapter to use when geocoding. The choices are `curl` or `socket`.
@@ -33,7 +37,7 @@ The available options are `google_maps`, `google_maps_business`, `bing_maps`, `o
 
 ### Provider Configuration
 
-Providers are configured using constants. For example, the Google Maps provider accepts a region, locale and a useSSL parameter upon construction. The constant names are determined by the name of the provider (e.g., `google_maps`) and the name of the paramter (e.g., `region`), capitalised and underscored separated.
+Providers are configured using constants. For example, the Google Maps provider accepts a region, locale and a useSSL parameter upon construction. The constant names are determined by the name of the provider (e.g., `google_maps`) and the name of the parameter (e.g., `region`), capitalised and underscored separated.
 
 You should specify constants in your `$PERCH/config/config.php` file:
 
