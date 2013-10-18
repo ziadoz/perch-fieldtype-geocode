@@ -23,17 +23,21 @@ To use the fieldtype, add into your template as follows:
 
 Once an address has been successfully geocoded, you'll see a Google Map preview:
 
-[screenshot]: https://github.com/ziadoz/perch-fieldtype-geocode/blob/master/screenshot.png "Google Map Preview"
+![screenshot]:(https://github.com/ziadoz/perch-fieldtype-geocode/blob/master/screenshot.png "Google Map Preview")
 
 ## Adapters
 
 The `adapter` attributes determines which HTTP adapter to use when geocoding. The choices are `curl` or `socket`.
+
+The **default** adapter is `curl`.
 
 ## Providers
 
 The `providers` attributes determines which service(s) to use for geocoding. They should be seperated by a single space, and will be executed in the order specified, stopping once a provider returns a result.
 
 The available options are `google_maps`, `google_maps_business`, `bing_maps`, `openstreetmaps`, `map_quest`, `nominatim`, `geocoder_ca`, `geocoder_us`, `ign_openls`, `data_science_toolkit`, `yandex`, `baidu` and `tomtom`.
+
+The **default** providers are `google_maps`, `openstreetmaps` and `map_quest`.
 
 ### Provider Configuration
 
