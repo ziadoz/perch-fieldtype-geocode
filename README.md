@@ -62,18 +62,26 @@ define('BING_MAPS_LOCALE', '');
 
 Check out the [PHP Geocoder](https://github.com/geocoder-php) documentation for more information providers and what parameters their constructors accept.
 
+Note: The specified HTTP adapter is automatically passed to the provider constructor, you only need to configure the remaining parameters.
+
 # Accessing Latitude/Longitude Data
 
 The latitude and longitude values, as well as the address entered by the user and any error messages, are stored in the item's JSON:
 
 ```js
 {
-	"address": {
-		"raw": '1218 2nd Avenue South, Lethbridge, AB T1J 0E3',
-		"latitude": 49.6974029,
-		"longitude": -112.8277358,
-		"error": ''
-	}
+    address":
+    {
+        "address":      "1218 2nd Avenue South\nLethbridge\nAlberta\nT1J 0E3",
+        "addr1":        "1218 2nd Avenue South",
+        "addr2":        "",
+        "city":         "Lethbridge",
+        "state":        "Alberta",
+        "postcode":     "T1J 0E3",
+        "error":        "",
+        "latitude":     49.6974029,
+        "longitude":    -112.8277358
+    }
 }
 ```
 
@@ -95,7 +103,15 @@ print_r($addresses);
             [_title] => Media 32
             [address] => Array
                 (
-                    [raw] => 1218 2nd Avenue South, Lethbridge, AB T1J 0E3
+                    [address] => 1218 2nd Avenue South
+                                 Lethbridge
+                                 Alberta
+                                 T1J 0E3
+                    [addr1] => 1218 2nd Avenue South
+                    [addr2] =>
+                    [city] => Lethbridge
+                    [state] => Alberta
+                    [postcode] => T1J 0E3
                     [error] =>
                     [latitude] => 49.6974029
                     [longitude] => -112.8277358

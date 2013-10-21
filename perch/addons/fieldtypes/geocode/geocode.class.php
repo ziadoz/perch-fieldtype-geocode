@@ -8,6 +8,19 @@ use Geocoder\Exception\ChainNoResultException;
 class PerchFieldType_geocode extends PerchAPI_FieldType
 {
 	/**
+	 * The field names and placeholders.
+	 *
+	 * @var array
+	 */
+	protected static $fields = array(
+		'addr1' 	=> 'Address Line 1',
+		'addr2' 	=> 'Address Line 2',
+		'city'		=> 'City',
+		'state'		=> 'State / Province',
+		'postcode' 	=> 'Postal Code',
+	);
+
+	/**
 	 * Output the form fields for the edit page
 	 *
 	 * @param array $details
@@ -43,17 +56,30 @@ class PerchFieldType_geocode extends PerchAPI_FieldType
 			$iframe .= '<div class="clear"></div>';
 		}
 
-		// Build Text Area.
-		$id 	= PerchUtil::html($this->Tag->input_id(), true);
-		$value  = PerchUtil::html((isset($details['address']['raw']) ? $details['address']['raw'] : ''), true);
-		$class  = PerchUtil::html($this->Tag->class, true);
+		// Build Inputs.
+		$id 		= PerchUtil::html($this->Tag->input_id(), true);
+		$class  	= PerchUtil::html($this->Tag->class, true);
+		$required 	= ($this->Tag->required == 'true' && defined('PERCH_HTML5') && PERCH_HTML5 == true);
+		$value 		= PerchUtil::html((isset($details['address']['address']) ? $details['address']['address'] : 'noop'), true);
 
-		return <<< TEXTAREA
-		<textarea id="{$id}" name="{$id}" class="text geocode {$class}" rows="6" cols="40">{$value}</textarea>
-		<div class="clear"></div>
-		{$error}
-		{$iframe}
-TEXTAREA;
+		$input = <<< INPUT
+		<input type="text" id="{$id}" name="{$id}" class="text" style="display: none;" value="{$value}" />
+INPUT;
+
+		foreach (self::$fields as $field => $placeholder) {
+			$validate 	= ($required && $field != 'addr2' ? 'required' : '');
+			$value 		= PerchUtil::html((isset($details['address'][$field]) ? $details['address'][$field] : ''), true);
+
+			$input .= <<< INPUT
+			<input type="text" id="{$id}_{$field}" name="{$id}_{$field}" class="text geocode {$class}" placeholder="{$placeholder}" value="{$value}" {$validate} />
+INPUT;
+
+		}
+
+		$input .= $error;
+		$input .= $iframe;
+
+		return $input;
 	}
 
 	/**
@@ -70,11 +96,17 @@ TEXTAREA;
 			$post = $_POST;
 		}
 
-		// Extract and clean up the value.
-		$id 	= $this->Tag->id();
-		$raw 	= (isset($post[$id]) ? $post[$id] : '');
-		$clean  = preg_replace(array('/\s+/', '/\n+/', '/\v/'), array(' ', ' ', ''), trim($raw));
-		$clean  = trim($clean);
+		// Extract and clean up the values.
+		$id  = $this->Tag->id();
+		$raw = (isset($post[$id]) ? $post[$id] : '');
+
+		$address = array();
+		foreach (self::$fields as $field => $placeholder) {
+			$key = 'address' . '_' . $field;
+			$address[$field] = (isset($post[$key]) ? trim($post[$key]) : '');
+		}
+
+		$clean = implode("\n", array_filter($address));
 
 		// Determine the adapter.
 		$adapter = $this->get_adapter(trim($this->Tag->adapter));
@@ -107,7 +139,11 @@ TEXTAREA;
 
 		// Build Results Array.
 		$store = array();
-		$store['raw'] = $raw;
+		$store['address'] = $clean;
+
+		foreach ($address as $field => $value) {
+			$store[$field] = $value;
+ 		}
 
 		if (! $result) {
 			$store['error'] = 'This address could not be geocoded.';
@@ -133,7 +169,7 @@ TEXTAREA;
 			$raw = $this->get_raw();
 		}
 
-		return $raw;
+		return $this->process_address($raw);
 	}
 
 	/**
@@ -148,7 +184,7 @@ TEXTAREA;
 			$raw = $this->get_raw();
 		}
 
-		return $raw['raw'];
+		return $this->process_address($raw);
 	}
 
 	/**
@@ -168,40 +204,45 @@ TEXTAREA;
 	{
 		$css = <<< CSS
 		<style>
-			textarea.geocode { 		width: 340px; height: 100px; }
-			iframe.location { 		width: 350px; height: 350px; }
+			input.geocode { 		width: 280px; display: block; margin-bottom: 10px; margin-left: 230px; }
+			iframe.location { 		width: 290px; height: 290px; }
 			p.error-geocode { 		color: red; }
+
+			@media screen and (max-width: 1060px) {
+				form input.geocode,
+				form iframe.location {
+					margin-left: 0;
+				}
+			}
 		</style>
 
 CSS;
-
-		$js = <<< JS
-		<script>
-			$(document).ready(function() {
-				$('#content-edit').on('submit', function(event) {
-					var error = false;
-					$('textarea.geocode').each(function() {
-						if ($(this).val() == '') {
-							$(this).parents('div.field').addClass('error');
-							error = true;
-						}
-					});
-
-					if (error) {
-						event.preventDefault();
-					}
-				});
-			});
-		</script>
-
-JS;
 
 		$siblings = $this->get_sibling_tags();
 		if (is_array($siblings)) {
 			$perch = Perch::fetch();
 			$perch->add_foot_content($css);
-			$perch->add_foot_content($js);
 		}
+	}
+
+	/**
+	 * Process the address from an array into a newline separated string.
+	 *
+	 * @param array
+	 * @return string
+	 **/
+	private function process_address($raw)
+	{
+		if (! is_array($raw)) {
+			$raw = array($raw);
+		}
+
+		$address = array();
+		foreach (self::$fields as $field => $placeholder) {
+			$address[$field] = (isset($raw[$field]) ? $raw[$field] : '');
+		}
+
+		return implode("\n", array_filter($address));
 	}
 
 	/**
