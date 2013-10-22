@@ -213,7 +213,7 @@ INPUT;
 				form iframe.location {
 					margin-left: 0;
 				}
-			}
+			} 
 		</style>
 
 CSS;
